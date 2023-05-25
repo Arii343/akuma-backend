@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import notFoundError from "./middlewares/notFoundError/notFoundError.js";
 import { generalError } from "./middlewares/generalError/generalError.js";
+import { pingController } from "./controllers/ping/pingController.js";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.disable("x-powered-by");
 app.use(express.json());
 
 app.use(morgan("dev"));
+
+app.get("/", pingController);
 
 app.use(notFoundError);
 
