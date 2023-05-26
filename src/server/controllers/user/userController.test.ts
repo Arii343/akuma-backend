@@ -75,12 +75,12 @@ describe("Given a loginUser controller", () => {
   });
 
   describe("When it receives a request with a wrong email", () => {
-    test("Then it should call a next function with a CustomError message 'wrong credentials'", async () => {
+    test("Then it should call a next function with a CustomError message 'Wrong credentials'", async () => {
       User.findOne = jest.fn().mockReturnValue({
         exec: jest.fn().mockResolvedValue(null),
       });
 
-      const customError = new CustomError("wrong credentials", 401);
+      const customError = new CustomError("Wrong credentials", 401);
 
       await loginUser(
         req as UserCredentialsRequest,
@@ -92,7 +92,7 @@ describe("Given a loginUser controller", () => {
     });
   });
   describe("When it receives a request with a wrong password", () => {
-    test("Then it should call a next function with CustomError message 'wrong credentials'", async () => {
+    test("Then it should call a next function with CustomError message 'Wrong credentials'", async () => {
       const user: UserData = {
         _id: new Types.ObjectId().toString(),
         email: "admin@admin.net",
@@ -105,7 +105,7 @@ describe("Given a loginUser controller", () => {
 
       bcrypt.compare = jest.fn().mockResolvedValue(false);
 
-      const customError = new CustomError("wrong credentials", 401);
+      const customError = new CustomError("Wrong credentials", 401);
 
       await loginUser(
         req as UserCredentialsRequest,
