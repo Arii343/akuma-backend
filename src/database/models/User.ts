@@ -3,24 +3,24 @@ import { Schema, model } from "mongoose";
 const userSchema = new Schema({
   email: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   },
   username: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
     min: 5,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
   role: {
     type: String,
     enum: ["user", "admin"],
     default: "user",
-    require: true,
+    required: true,
   },
 });
 
