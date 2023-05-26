@@ -5,6 +5,10 @@ export interface UserCredentials {
   password: string;
 }
 
+export interface UserData extends UserCredentials {
+  _id: string;
+}
+
 export type UserCredentialsRequest = Request<
   Record<string, unknown>,
   Record<string, unknown>,
