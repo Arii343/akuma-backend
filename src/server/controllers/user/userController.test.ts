@@ -3,7 +3,7 @@ import {
   type UserData,
   type UserCredentials,
   type UserCredentialsRequest,
-} from "./types";
+} from "../../types";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import loginUser from "./userController";

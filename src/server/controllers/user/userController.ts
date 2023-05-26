@@ -1,5 +1,5 @@
 import { type NextFunction, type Response } from "express";
-import { type UserCredentialsRequest } from "./types";
+import { type UserCredentialsRequest } from "../../types";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../../../database/models/User";
