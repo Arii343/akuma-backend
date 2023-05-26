@@ -98,4 +98,22 @@ describe("Given a POST /user/login endpoint", () => {
       expect(response.body.message).toBe(expectedMessage);
     });
   });
+  describe("When it receives a request with invalid format credential email 'admin@admin.net' and password '345'", () => {
+    test("Then it should respond with status 400 and 'Validation Failed' message", async () => {
+      const expectedStatus = 400;
+      const expectedMessage = "Validation Failed";
+
+      const mockUserInvalidLogin = {
+        email: "admin@admin.net",
+        password: 345,
+      };
+
+      const response = await request(app)
+        .post("/user/login")
+        .send(mockUserInvalidLogin)
+        .expect(expectedStatus);
+
+      expect(response.body.message).toBe(expectedMessage);
+    });
+  });
 });
