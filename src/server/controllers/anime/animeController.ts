@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { Anime } from "../../../database/models/Anime";
+import { Anime } from "../../../database/models/Anime.js";
 
 const getAnimes = async (_req: Request, res: Response, next: NextFunction) => {
   try {

@@ -5,6 +5,7 @@ import notFoundError from "./middlewares/notFoundError/notFoundError.js";
 import { generalError } from "./middlewares/generalError/generalError.js";
 import { pingController } from "./controllers/ping/pingController.js";
 import userRouter from "./routers/user/userRouter.js";
+import animeRouter from "./routers/anime/animeRouter.js";
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/user", userRouter);
+
+app.use("/anime", animeRouter);
 
 app.get("/", pingController);
 
