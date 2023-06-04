@@ -4,9 +4,10 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { User } from "../../../database/models/User";
 import request from "supertest";
 import jwt from "jsonwebtoken";
-import { type UserDataStructure, type UserCredentials } from "../../types";
+import { type UserCredentials } from "../../types";
 import connectDataBase from "../../../database/connectDataBase";
 import mongoose from "mongoose";
+import { mockUserHashed } from "../../../mocks/user/userMock.js";
 
 let server: MongoMemoryServer;
 
@@ -27,13 +28,6 @@ beforeEach(async () => {
 afterEach(async () => {
   await User.deleteMany();
 });
-
-const mockUserHashed: UserDataStructure = {
-  email: "admin@admin.net",
-  password: "$2y$10$jmcgTo7iVtrVhtdS6PgpD.tAEb1gW3AbrRNeStJ5rowxE7zLmiwyy",
-  role: "admin",
-  username: "admin",
-};
 
 describe("Given a POST /user/login endpoint", () => {
   describe("When it receives a valid credentials with email 'admin@admin.net' and password 'admin'", () => {
