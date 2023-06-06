@@ -1,0 +1,80 @@
+{
+  "info": {
+    "_postman_id": "134b0e6f-3922-4c87-aaab-5cacb5100e96",
+    "name": "Akuma-api",
+    "description": "Akuma-api is an anime api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "27032650"
+  },
+  "item": [
+    {
+      "name": "Animes",
+      "item": [
+        {
+          "name": "Animes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4000/anime",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["anime"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@admin.net\",\n    \"password\": \"admin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4000/user/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["user", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ping",
+      "item": [
+        {
+          "name": "Ping",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4000/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": [""]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
