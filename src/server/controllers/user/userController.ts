@@ -1,10 +1,9 @@
 import { type NextFunction, type Response } from "express";
 import { type UserCredentialsRequest } from "../../types";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { type JwtPayload } from "jsonwebtoken";
 import { User } from "../../../database/models/User.js";
 import CustomError from "../../../CustomError/CustomError.js";
-import { type JwtPayload } from "jsonwebtoken";
 
 const loginUser = async (
   req: UserCredentialsRequest,
