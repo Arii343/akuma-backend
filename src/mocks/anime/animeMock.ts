@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export const animeMock = {
   image: "https://cdn.myanimelist.net/images/anime/1995/135164l.webp",
   englishTitle: "The Rising of the Shield Hero Season 3",
@@ -18,3 +20,8 @@ export const animeMock = {
 };
 
 export const animesMock = [animeMock];
+
+export const animeMockWithId = {
+  ...animeMock,
+  _id: new Types.ObjectId(),
+};
