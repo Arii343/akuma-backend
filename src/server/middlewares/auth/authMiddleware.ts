@@ -1,10 +1,10 @@
 import "../../../loadEnviroment.js";
-import { type NextFunction } from "express";
+import { type NextFunction, type Response } from "express";
 import { type AuthRequest } from "../../types.js";
 import CustomError from "../../../CustomError/CustomError.js";
 import jwt from "jsonwebtoken";
 
-const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
+const auth = (req: AuthRequest, _res: Response, next: NextFunction) => {
   try {
     const authorizationHeader = req.header("Authorization");
     if (!authorizationHeader?.includes("Bearer")) {
