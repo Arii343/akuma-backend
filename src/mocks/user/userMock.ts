@@ -6,3 +6,9 @@ export const mockUserHashed: UserDataStructure = {
   role: "admin",
   username: "admin",
 };
+
+export const mockUserToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDc5MDE3YjIxOTVmYzUwM2M1MTMzM2IiLCJpYXQiOjE2ODYzMzcxNTgsImV4cCI6MTY4NjQyMzU1OH0.Kcprnhv32SJU4AFDrDXuxsC2KfTwGwdN67qzC_BhYQs";
+
+export const mockInvalidUserToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCp6IkpXVCJ9.eyJzdWIiOiI2NDc5MDE3YjIxOTVmYzUwM2M1MTMzM2IiLCJpYXQiOjE2ODYzMzcxNTgsImV4cCI6MTY4NjQyMzU1OH0.Kcprnhv32SJU4AFDrDXuxsC2KfTwGwdN67qzC_BhYQs";
