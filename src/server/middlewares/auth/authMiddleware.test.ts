@@ -1,5 +1,5 @@
 import "../../../loadEnviroment.js";
-import { type NextFunction } from "express";
+import { type NextFunction, type Response } from "express";
 import jwt from "jsonwebtoken";
 import auth from "./authMiddleware";
 import CustomError from "../../../CustomError/CustomError.js";
