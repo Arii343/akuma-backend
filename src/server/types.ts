@@ -30,3 +30,28 @@ export interface AuthRequest<
 > extends Request<P, ResBody, ReqBody, ReqQuery, Locals> {
   userId: string;
 }
+
+export type DemographicsStructure = string[];
+export type GenresStructure = string[];
+
+export interface AnimeStateStructure {
+  englishTitle: string;
+  japaneseTitle: string;
+  releaseYear: number;
+  rating: string;
+  demographics: DemographicsStructure;
+  genres: GenresStructure;
+  image: string;
+  score: number;
+  rank: number;
+  popularity: number;
+  type: string;
+  source: string;
+  episodes: number;
+  status: string;
+  duration: string;
+  synopsis: string;
+}
+export interface CustomRequest extends Request {
+  body: AnimeStateStructure;
+}

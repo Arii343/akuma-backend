@@ -1,9 +1,11 @@
 import { type NextFunction, type Request, type Response } from "express";
 import { Anime } from "../../../database/models/Anime";
 import { animeMockWithId, animesMock } from "../../../mocks/anime/animeMock";
-import { deleteAnime, getAnimes } from "./animeController";
+import { addAnime, deleteAnime, getAnimes } from "./animeController";
 import { type AuthRequest } from "../../types";
 import CustomError from "../../../CustomError/CustomError";
+import { animeMock } from "../../../mocks/anime/animeMock";
+import { type CustomRequest as AddAnimeRequest } from "../../types.js";
 
 type CustomResponse = Pick<Response, "status" | "json">;
 type CustomRequest = Request<Record<string, unknown>, Record<string, unknown>>;
@@ -117,6 +119,59 @@ describe("Given a deleteAnimes controller", () => {
       );
 
       expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+});
+
+describe("Given a addAnime controller", () => {
+  const req: Partial<AddAnimeRequest> = {
+    body: animeMock,
+  };
+  const res: Partial<Response> = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const next = jest.fn();
+
+  describe("When it receives a response and an anime data to add", () => {
+    Anime.create = jest.fn().mockReturnValue(animeMock);
+
+    test("Then it should call the method status with 201", async () => {
+      const expectedStatus = 201;
+
+      await addAnime(
+        req as AddAnimeRequest,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+    });
+
+    test("Then it should call the json method with the added anime", async () => {
+      await addAnime(
+        req as AddAnimeRequest,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(res.json).toHaveBeenCalledWith({ anime: animeMock });
+    });
+  });
+
+  describe("When it receives a next function and the create function rejects", () => {
+    test("Then it should call the next function with the error 400", async () => {
+      const expectedError = new CustomError("Couldn't add the anime", 400);
+
+      Anime.create = jest.fn().mockResolvedValue(null);
+
+      await addAnime(
+        req as AddAnimeRequest,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
 });
