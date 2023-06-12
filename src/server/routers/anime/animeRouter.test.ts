@@ -4,11 +4,15 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import connectDataBase from "../../../database/connectDataBase";
 import mongoose from "mongoose";
 import { Anime } from "../../../database/models/Anime";
-import { animeMockWithId } from "../../../mocks/anime/animeMock";
+import {
+  animeFullMetalAlchemistMock,
+  animeMockWithId,
+} from "../../../mocks/anime/animeMock";
 import {
   mockInvalidUserToken,
   mockUserToken,
 } from "../../../mocks/user/userMock";
+import { type AnimeStateStructure } from "../../types";
 
 let server: MongoMemoryServer;
 
@@ -120,6 +124,43 @@ describe("Given a DELETE /anime/:id endpoint", () => {
       const expectedMessage = "Token not found";
       const response = await request(app)
         .delete(`/anime/${id}`)
+        .expect(expectedStatus);
+
+      expect(response.body.message).toBe(expectedMessage);
+    });
+  });
+});
+
+describe("Given a POST /anime endpoint", () => {
+  describe("When it receives a request with a new anime data", () => {
+    test("Then it should respond with status 201 and the new anime data", async () => {
+      const expectedStatus = 201;
+      const expectedProperty = "anime";
+      const newAnime: AnimeStateStructure = animeFullMetalAlchemistMock;
+
+      const response = await request(app)
+        .post("/anime")
+        .set("Authorization", `Bearer ${mockUserToken}`)
+        .send(newAnime)
+        .expect(expectedStatus);
+
+      expect(response.body).toHaveProperty(expectedProperty);
+    });
+  });
+
+  describe("When it receives a new anime data with invalid englishTitle", () => {
+    test("Then it should respond with the error 400 and the message 'englishTitle is required'", async () => {
+      const expectedStatus = 400;
+      const expectedMessage = "Validation Failed";
+      const newAnimeWithOutEnglishTitle = {
+        ...animeFullMetalAlchemistMock,
+        englishTitle: 12,
+      };
+
+      const response = await request(app)
+        .post("/anime")
+        .set("Authorization", `Bearer ${mockUserToken}`)
+        .send(newAnimeWithOutEnglishTitle)
         .expect(expectedStatus);
 
       expect(response.body.message).toBe(expectedMessage);
