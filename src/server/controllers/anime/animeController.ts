@@ -9,9 +9,7 @@ export const getAnimes = async (
   next: NextFunction
 ) => {
   try {
-    const animes = await Anime.find({}, "_id englishTitle image")
-      .limit(10)
-      .exec();
+    const animes = await Anime.find({}).limit(10).exec();
 
     res.status(200).json({ animes });
   } catch (error) {
