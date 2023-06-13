@@ -1,6 +1,6 @@
 import { type Request, type NextFunction, type Response } from "express";
 import notFoundError from "./notFoundError.js";
-import CustomError from "../../../CustomError/CustomError.js";
+import { responseErrorData } from "../../utils/responseData/responseData.js";
 
 describe("Given a notFoundError middleware", () => {
   describe("When it receives a next function", () => {
@@ -15,7 +15,7 @@ describe("Given a notFoundError middleware", () => {
     });
 
     test("Then it should be called with CustomError", () => {
-      const error = new CustomError("Endpoint not found", 404);
+      const error = responseErrorData.endpointNotFound;
 
       notFoundError(req as Request, res as Response, next);
 

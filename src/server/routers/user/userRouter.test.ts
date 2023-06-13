@@ -1,11 +1,11 @@
 import "../../../loadEnviroment.js";
-import app from "../..";
+import app from "../../index.js";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { User } from "../../../database/models/User";
+import { User } from "../../../database/models/User.js";
 import request from "supertest";
 import jwt from "jsonwebtoken";
-import { type UserCredentials } from "../../types";
-import connectDataBase from "../../../database/connectDataBase";
+import { type UserCredentials } from "../../types.js";
+import connectDataBase from "../../../database/connectDataBase.js";
 import mongoose from "mongoose";
 import { mockUserHashed } from "../../../mocks/user/userMock.js";
 
