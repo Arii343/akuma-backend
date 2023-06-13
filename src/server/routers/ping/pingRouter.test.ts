@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../..";
+import app from "../../index.js";
 
 describe("Given a GET / endpoint", () => {
   describe("When it receives a valid request", () => {
