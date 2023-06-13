@@ -1,6 +1,7 @@
 import { type NextFunction, type Request, type Response } from "express";
-import CustomError from "../../../CustomError/CustomError.js";
-import { generalError } from "./generalError";
+import type CustomError from "../../../CustomError/CustomError.js";
+import { generalError } from "./generalError.js";
+import { responseErrorData } from "../../utils/responseData/responseData.js";
 
 type CustomResponse = Pick<Response, "status" | "json">;
 
@@ -9,7 +10,7 @@ beforeEach(() => {
 });
 
 describe("Given a generalError middleware", () => {
-  const error = new CustomError("Endpoint not found", 404);
+  const error = responseErrorData.endpointNotFound;
   describe("When it is called with a CustomError with status 404", () => {
     test("Then it should call res.status with status 404", () => {
       const statusCode = 404;
@@ -55,7 +56,7 @@ describe("Given a generalError middleware", () => {
   });
 
   describe("When it is called with a unknown error", () => {
-    const errorWithOutStatus = new Error("Internal server error");
+    const errorWithOutStatus = responseErrorData.serverError;
     test("Then it should call res.status with status 500", () => {
       const statusCode = 500;
 

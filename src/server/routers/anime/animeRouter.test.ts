@@ -1,18 +1,18 @@
 import request from "supertest";
-import app from "../..";
+import app from "../../index.js";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import connectDataBase from "../../../database/connectDataBase";
+import connectDataBase from "../../../database/connectDataBase.js";
 import mongoose from "mongoose";
-import { Anime } from "../../../database/models/Anime";
+import { Anime } from "../../../database/models/Anime.js";
 import {
   animeFullMetalAlchemistMock,
   animeMockWithId,
-} from "../../../mocks/anime/animeMock";
+} from "../../../mocks/anime/animeMock.js";
 import {
   mockInvalidUserToken,
   mockUserToken,
-} from "../../../mocks/user/userMock";
-import { type AnimeStateStructure } from "../../types";
+} from "../../../mocks/user/userMock.js";
+import { type AnimeStateStructure } from "../../types.js";
 
 let server: MongoMemoryServer;
 

@@ -1,15 +1,14 @@
 import "../../../loadEnviroment.js";
 import { type NextFunction, type Response } from "express";
 import { type AuthRequest } from "../../types.js";
-import CustomError from "../../../CustomError/CustomError.js";
 import jwt from "jsonwebtoken";
+import { responseErrorData } from "../../utils/responseData/responseData.js";
 
 const auth = (req: AuthRequest, _res: Response, next: NextFunction) => {
   try {
     const authorizationHeader = req.header("Authorization");
     if (!authorizationHeader?.includes("Bearer")) {
-      const customError = new CustomError("Token not found", 401);
-      throw customError;
+      throw responseErrorData.tokenNotFound;
     }
 
     const token = authorizationHeader.replace("Bearer ", "");
@@ -24,7 +23,7 @@ const auth = (req: AuthRequest, _res: Response, next: NextFunction) => {
   } catch (error: unknown) {
     const customError =
       (error as Error).name === "JsonWebTokenError"
-        ? new CustomError("Invalid token", 401)
+        ? responseErrorData.invalidToken
         : error;
     next(customError);
   }

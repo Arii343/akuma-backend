@@ -1,11 +1,14 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { Anime } from "../../../database/models/Anime";
-import { animeMockWithId, animesMock } from "../../../mocks/anime/animeMock";
-import { addAnime, deleteAnime, getAnimes } from "./animeController";
-import { type AuthRequest } from "../../types";
-import CustomError from "../../../CustomError/CustomError";
-import { animeMock } from "../../../mocks/anime/animeMock";
+import { Anime } from "../../../database/models/Anime.js";
+import {
+  animeMockWithId,
+  animesMock,
+  animeMock,
+} from "../../../mocks/anime/animeMock.js";
+import { addAnime, deleteAnime, getAnimes } from "./animeController.js";
+import { type AuthRequest } from "../../types.js";
 import { type CustomRequest as AddAnimeRequest } from "../../types.js";
+import { responseErrorData } from "../../utils/responseData/responseData.js";
 
 type CustomResponse = Pick<Response, "status" | "json">;
 type CustomRequest = Request<Record<string, unknown>, Record<string, unknown>>;
@@ -106,7 +109,7 @@ describe("Given a deleteAnimes controller", () => {
       const res = {};
       const next = jest.fn();
 
-      const error = new CustomError("Anime not found", 404);
+      const error = responseErrorData.animeNotFound;
 
       Anime.findByIdAndDelete = jest
         .fn()
@@ -161,7 +164,7 @@ describe("Given a addAnime controller", () => {
 
   describe("When it receives a next function and the create function rejects", () => {
     test("Then it should call the next function with the error 400", async () => {
-      const expectedError = new CustomError("Couldn't add the anime", 400);
+      const expectedError = responseErrorData.errorAddAnime;
 
       Anime.create = jest.fn().mockResolvedValue(null);
 

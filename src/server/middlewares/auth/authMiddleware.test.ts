@@ -1,9 +1,9 @@
 import "../../../loadEnviroment.js";
 import { type NextFunction, type Response } from "express";
 import jwt from "jsonwebtoken";
-import auth from "./authMiddleware";
-import CustomError from "../../../CustomError/CustomError.js";
+import auth from "./authMiddleware.js";
 import { type AuthRequest } from "../../types.js";
+import { responseErrorData } from "../../utils/responseData/responseData.js";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -34,7 +34,7 @@ describe("Given an auth middleware", () => {
 
   describe("When it receives a request with an invalid token and a next function", () => {
     test("Then it should call the next function with the error 'Invalid token' and the status code 401", () => {
-      const expectedError = new CustomError("Invalid token", 401);
+      const expectedError = responseErrorData.invalidToken;
 
       expectedError.name = "JsonWebTokenError";
 
@@ -54,7 +54,7 @@ describe("Given an auth middleware", () => {
         header: jest.fn().mockReturnValue(token),
       };
 
-      const expectedError = new CustomError("Token not found", 401);
+      const expectedError = responseErrorData.tokenNotFound;
 
       auth(req as AuthRequest, res as Response, next as NextFunction);
 

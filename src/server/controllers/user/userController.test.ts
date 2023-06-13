@@ -3,13 +3,13 @@ import {
   type UserData,
   type UserCredentials,
   type UserCredentialsRequest,
-} from "../../types";
+} from "../../types.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import loginUser from "./userController";
+import loginUser from "./userController.js";
 import { Types } from "mongoose";
-import { User } from "../../../database/models/User";
-import CustomError from "../../../CustomError/CustomError";
+import { User } from "../../../database/models/User.js";
+import { responseErrorData } from "../../utils/responseData/responseData.js";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -80,7 +80,7 @@ describe("Given a loginUser controller", () => {
         exec: jest.fn().mockResolvedValue(null),
       });
 
-      const customError = new CustomError("Wrong credentials", 401);
+      const customError = responseErrorData.wrongCredentials;
 
       await loginUser(
         req as UserCredentialsRequest,
@@ -105,7 +105,7 @@ describe("Given a loginUser controller", () => {
 
       bcrypt.compare = jest.fn().mockResolvedValue(false);
 
-      const customError = new CustomError("Wrong credentials", 401);
+      const customError = responseErrorData.wrongCredentials;
 
       await loginUser(
         req as UserCredentialsRequest,

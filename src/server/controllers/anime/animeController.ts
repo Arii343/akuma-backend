@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response } from "express";
 import { Anime } from "../../../database/models/Anime.js";
-import CustomError from "../../../CustomError/CustomError.js";
 import { type CustomRequest } from "../../types.js";
+import { responseErrorData } from "../../utils/responseData/responseData.js";
 
 export const getAnimes = async (
   _req: Request,
@@ -28,7 +28,7 @@ export const deleteAnime = async (
     const animeToDelete = await Anime.findByIdAndDelete(id).exec();
 
     if (!animeToDelete) {
-      throw new CustomError("Anime not found", 404);
+      throw responseErrorData.animeNotFound;
     }
 
     res.status(200).json({ message: "Anime deleted" });
@@ -50,7 +50,7 @@ export const addAnime = async (
     });
 
     if (!newAnime) {
-      throw new CustomError("Couldn't add the anime", 400);
+      throw responseErrorData.errorAddAnime;
     }
 
     res.status(201).json({ anime: newAnime });
