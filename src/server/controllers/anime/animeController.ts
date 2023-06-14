@@ -9,7 +9,7 @@ export const getAnimes = async (
   next: NextFunction
 ) => {
   try {
-    const animes = await Anime.find({}).limit(10).exec();
+    const animes = await Anime.find().sort({ _id: -1 }).limit(10).exec();
 
     res.status(200).json({ animes });
   } catch (error) {
@@ -54,6 +54,26 @@ export const addAnime = async (
     }
 
     res.status(201).json({ anime: newAnime });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAnime = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+
+    const anime = await Anime.findById(id).exec();
+
+    if (!anime) {
+      throw responseErrorData.animeNotFound;
+    }
+
+    res.status(200).json({ anime });
   } catch (error) {
     next(error);
   }
