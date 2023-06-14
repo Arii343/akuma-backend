@@ -5,7 +5,12 @@ import {
   animesMock,
   animeMock,
 } from "../../../mocks/anime/animeMock.js";
-import { addAnime, deleteAnime, getAnimes } from "./animeController.js";
+import {
+  addAnime,
+  deleteAnime,
+  getAnime,
+  getAnimes,
+} from "./animeController.js";
 import { type AuthRequest } from "../../types.js";
 import { type CustomRequest as AddAnimeRequest } from "../../types.js";
 import { responseErrorData } from "../../utils/responseData/responseData.js";
@@ -23,10 +28,11 @@ describe("Given a getAnimes controller", () => {
 
   describe("When it receives a valid get request", () => {
     Anime.find = jest.fn().mockReturnValue({
-      limit: jest.fn().mockReturnValue({
-        exec: jest.fn().mockResolvedValue(animesMock),
-      }),
+      sort: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
+      exec: jest.fn().mockResolvedValue(animesMock),
     });
+
     test("Then it should call a response's status method with a status code 200", async () => {
       const expectedStatus = 200;
 
@@ -46,10 +52,10 @@ describe("Given a getAnimes controller", () => {
       const errorWithDatabase = new Error();
 
       Anime.find = jest.fn().mockReturnValue({
-        limit: jest.fn().mockReturnValue({
-          exec: jest.fn().mockImplementation(() => {
-            throw errorWithDatabase;
-          }),
+        sort: jest.fn().mockReturnThis(),
+        limit: jest.fn().mockReturnThis(),
+        exec: jest.fn().mockImplementation(() => {
+          throw errorWithDatabase;
         }),
       });
 
@@ -175,6 +181,72 @@ describe("Given a addAnime controller", () => {
       );
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a getAnime controller", () => {
+  const req: Partial<Request> = {
+    params: { id: animeMockWithId._id.toString() },
+  };
+  const res: CustomResponse = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const next = jest.fn();
+
+  Anime.findById = jest
+    .fn()
+    .mockReturnValue({ exec: jest.fn().mockResolvedValue(animeMockWithId) });
+
+  describe("When it receives a valid request with an anime id", () => {
+    test("Then it should call a response's status method with a status code 200", async () => {
+      const expectedStatus = 200;
+
+      await getAnime(
+        req as Request<{ id: string }>,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+    });
+  });
+
+  describe("When it recieves a valid request with an exiting anime id but database fails", () => {
+    test("Then 'catch' should capture the error and pass it to 'next' function", async () => {
+      const errorWithDatabase = new Error();
+
+      Anime.findById = jest.fn().mockReturnValue({
+        exec: jest.fn().mockImplementation(() => {
+          throw errorWithDatabase;
+        }),
+      });
+
+      await getAnime(
+        req as Request<{ id: string }>,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(next).toHaveBeenCalledWith(errorWithDatabase);
+    });
+  });
+  describe("When it recieves a valid request with an non exiting anime id", () => {
+    test("Then 'catch' should capture the error with the message 'Anime not found' and pass it to 'next' function", async () => {
+      const errorNotFound = responseErrorData.animeNotFound;
+
+      Anime.findById = jest.fn().mockReturnValue({
+        exec: jest.fn().mockResolvedValue(null),
+      });
+
+      await getAnime(
+        req as Request<{ id: string }>,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(next).toHaveBeenCalledWith(errorNotFound);
     });
   });
 });
