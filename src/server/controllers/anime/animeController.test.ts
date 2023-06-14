@@ -5,7 +5,12 @@ import {
   animesMock,
   animeMock,
 } from "../../../mocks/anime/animeMock.js";
-import { addAnime, deleteAnime, getAnimes } from "./animeController.js";
+import {
+  addAnime,
+  deleteAnime,
+  getAnime,
+  getAnimes,
+} from "./animeController.js";
 import { type AuthRequest } from "../../types.js";
 import { type CustomRequest as AddAnimeRequest } from "../../types.js";
 import { responseErrorData } from "../../utils/responseData/responseData.js";
@@ -175,6 +180,35 @@ describe("Given a addAnime controller", () => {
       );
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a getAnime controller", () => {
+  const req: Partial<Request> = {
+    params: { id: animeMockWithId._id.toString() },
+  };
+  const res: CustomResponse = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const next = jest.fn();
+
+  Anime.findById = jest
+    .fn()
+    .mockReturnValue({ exec: jest.fn().mockResolvedValue(animeMockWithId) });
+
+  describe("When it receives a valid request with an anime id", () => {
+    test("Then it should call a response's status method with a status code 200", async () => {
+      const expectedStatus = 200;
+
+      await getAnime(
+        req as Request<{ id: string }>,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
     });
   });
 });
