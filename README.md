@@ -1,3 +1,7 @@
+
+# あ kuma
+
+あ kuma is an anime series and movies application that facilitates the experience of finding an anime that meets your expectations. With a catalog of more than 3800 animes.
 ## Endpoints
 
 <br>
